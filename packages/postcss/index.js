@@ -16,21 +16,25 @@ module.exports = postcss
  * @return {Function}
  */
 function postcss (plugins = [], options = {}) {
+  const { parser, stringifier, syntax } = options
+  const { exclude, fileType } = options
+
   // https://github.com/postcss/postcss-loader#options
   const postcssOptions = Object.assign(
     {},
-    options.parser && { parser: options.parser },
-    options.stringifier && { stringifier: options.stringifier },
-    options.syntax && { syntax: options.syntax }
+    parser ? { parser } : {},
+    stringifier ? { stringifier } : {},
+    syntax ? { syntax } : {}
   )
 
   return (context, util) => prevConfig => {
     const ruleDef = Object.assign(
       {
-        test: context.fileType('text/css'),
+        test: context.fileType(fileType || 'text/css'),
         use: [ 'style-loader', 'css-loader', 'postcss-loader?' + JSON.stringify(postcssOptions) ]
-      }, options.exclude ? {
-        exclude: Array.isArray(options.exclude) ? options.exclude : [ options.exclude ]
+      }, exclude ? {
+
+        exclude: Array.isArray(exclude) ? exclude : [ exclude ]
       } : {}
     )
 

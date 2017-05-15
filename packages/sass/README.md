@@ -36,6 +36,18 @@ module.exports = createConfig([
 Make sure you use the `extract-text` block *after* the `sass` block.
 
 
+## CSS Modules
+
+You can use SASS in combination with CSS modules. Just make sure to pass the `text/x-sass` file type when using `css.modules()`:
+
+```js
+module.exports = createConfig([
+  sass(),
+  css.modules({ fileType: 'text/x-sass' })
+])
+```
+
+
 ## Webpack blocks
 
 Check out the
